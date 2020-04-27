@@ -4,15 +4,17 @@ import { Table, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import Loading from '../utils/loading';
 import Error from '../utils/error';
+import Alert from '../utils/alert';
 
 export default class StudentList extends Component {
-
   constructor(props) {
     super(props)
     this.state = {
       students: [],
       canDisplayView: false,
       isError: false,
+      alertVariant: 'none',
+      alertMsg: '',
     };
   }
 
@@ -38,9 +40,16 @@ export default class StudentList extends Component {
     const { students } = this.state;
     axios.delete('http://localhost:4000/students/delete-student/' + id)
       .then((res) => {
-        console.log('Student successfully deleted!')
+        this.setState({
+          alertVariant: 'success',
+          alertMsg: 'Student successfully deleted!'
+        })
       }).catch((error) => {
-        console.log(error)
+        this.setState({
+          alertVariant: 'error',
+          alertMsg: error.response,
+        })
+        console.log(error);
       })
     this.setState({
       students: students.filter(student => student._id !== id),
@@ -49,7 +58,6 @@ export default class StudentList extends Component {
 
   getTableData() {
     const { students } = this.state;
-    console.log(students);
     return students.map((student, index) => {
       return (
         <tr key={index}>
@@ -68,8 +76,15 @@ export default class StudentList extends Component {
     )
   }
 
+  handleAlertClose = () => {
+    this.setState({
+      alertVariant: 'none',
+      alertMsg: '',
+    })
+  }
+
   render() {
-    const { students, canDisplayView, isError } = this.state;
+    const { students, canDisplayView, isError, alertVariant, alertMsg } = this.state;
 
     if (!canDisplayView) {
       return <Loading />;
@@ -85,6 +100,9 @@ export default class StudentList extends Component {
           canDisplayView ?
             <div className="student-list-wrapper">
               <h1> Student list</h1>
+              {
+                alertVariant === 'none' ? null : <Alert alertVariant={alertVariant} alertMsg={alertMsg} handleClose={this.handleAlertClose} />
+              }
               <Table striped bordered hover>
                 <thead>
                   <tr>

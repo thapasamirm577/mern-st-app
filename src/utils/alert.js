@@ -2,9 +2,9 @@ import React from "react";
 import { Alert } from 'react-bootstrap'
 
 const AlertContainer = (props) => {
-    const { alertMsg, alertVariant } = props;
+    const { alertMsg, alertVariant, handleClose } = props;
     return (
-        <Alert variant={alertVariant}>
+        <Alert variant={alertVariant} onClose={() => handleClose()} dismissible>
             {alertMsg}
         </Alert>
     )

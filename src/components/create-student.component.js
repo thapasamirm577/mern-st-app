@@ -74,13 +74,20 @@ export default class CreateStudent extends Component {
     })
   }
 
+  handleAlertClose = () => {
+    this.setState({
+      alertVariant: 'none',
+      alertMsg: '',
+    })
+  }
+
   render() {
     const { name, email, rollno, alertVariant, alertMsg } = this.state;
     return (
       <div className="student-create-wapper">
         <h1> Create student list</h1>
         {
-          alertVariant === 'none' ? null : <Alert alertVariant={alertVariant} alertMsg={alertMsg}/>
+          alertVariant === 'none' ? null : <Alert alertVariant={alertVariant} alertMsg={alertMsg} handleClose={this.handleAlertClose}/>
         }
         <Form>
           <Form.Group controlId="Name">
