@@ -25,16 +25,21 @@ export default class StudentList extends Component {
   }
 
   deleteStudent(id) {
+    const { students } = this.state;
     axios.delete('http://localhost:4000/students/delete-student/' + id)
       .then((res) => {
         console.log('Student successfully deleted!')
       }).catch((error) => {
         console.log(error)
       })
+    this.setState({
+      students: students.filter(student => student._id !== id),
+    })
   }
 
   getTableData() {
     const { students } = this.state;
+    console.log(students);
     return students.map((student, index) => {
       return (
         <tr key={index}>
@@ -54,6 +59,7 @@ export default class StudentList extends Component {
   }
 
   render() {
+    const { students } = this.state;
     return (
       <div className="student-list-wrapper">
         <h1> Student list</h1>
@@ -67,7 +73,9 @@ export default class StudentList extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.getTableData()}
+            {
+              students.length ? this.getTableData() : <tr><td colSpan="4"> No data found.</td></tr>
+            }
           </tbody>
         </Table>
       </div>
