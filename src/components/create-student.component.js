@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button';
+import { Form, Button} from 'react-bootstrap'
+import axios from 'axios';
 
 export default class CreateStudent extends Component {
   constructor(props) {
@@ -31,8 +31,23 @@ export default class CreateStudent extends Component {
   }
 
   handleSubmitDetails = () => {
-    console.log(`Name: ${this.state.name}`, `Email: ${this.state.email}`, `Roll no: ${this.state.rollno}`);
+    const { name, email, rollno } = this.state;
+    const data = {
+      name,
+      email,
+      rollno
+    };
+    console.log(data);
+
+    axios.post(
+      'http://localhost:4000/students/create-student',
+      data
+    )
+      .then(res =>
+        console.log(res.data)
+      );
     console.log(`Student successfully created!`);
+
     this.resetFormValue();
   }
 
