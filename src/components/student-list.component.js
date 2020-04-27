@@ -2,13 +2,17 @@ import React, { Component } from "react";
 import axios from 'axios';
 import { Table, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
+import Loading from '../utils/loading';
+import Error from '../utils/error';
 
 export default class StudentList extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      students: []
+      students: [],
+      canDisplayView: false,
+      isError: false,
     };
   }
 
@@ -16,11 +20,17 @@ export default class StudentList extends Component {
     axios.get('http://localhost:4000/students/')
       .then(res => {
         this.setState({
-          students: res.data
+          students: res.data,
+          canDisplayView: true,
+          isError: false,
         });
       })
       .catch((error) => {
         console.log(error);
+        this.setState({
+          isError: true,
+          canDisplayView: true,
+        });
       })
   }
 
@@ -59,26 +69,41 @@ export default class StudentList extends Component {
   }
 
   render() {
-    const { students } = this.state;
+    const { students, canDisplayView, isError } = this.state;
+
+    if (!canDisplayView) {
+      return <Loading />;
+    }
+
+    if (isError) {
+      return <Error />;
+    }
+
     return (
-      <div className="student-list-wrapper">
-        <h1> Student list</h1>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Roll No</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              students.length ? this.getTableData() : <tr><td colSpan="4"> No data found.</td></tr>
-            }
-          </tbody>
-        </Table>
-      </div>
+      <>
+        {
+          canDisplayView ?
+            <div className="student-list-wrapper">
+              <h1> Student list</h1>
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Roll No</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    students.length ? this.getTableData() : <tr><td colSpan="4"> No data found.</td></tr>
+                  }
+                </tbody>
+              </Table>
+            </div>
+            : <Loading />
+        }
+      </>
     );
   }
 }

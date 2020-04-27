@@ -25,3 +25,9 @@
   background: #f0f0f0;
   padding: 40px;
 }
+
+.loading-wrapper,
+.error-wrapper{
+  text-align: center;
+  margin-top: 60px;
+}
