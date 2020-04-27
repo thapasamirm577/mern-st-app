@@ -1,3 +1,18 @@
 .navbar-dark .navbar-nav .nav-link{
   color: #ffffff;
 }
+
+.form-wrapper{
+  width: 60%;
+  margin: auto;
+  margin-top: 60px;
+}
+
+.form-wrapper h1{
+  text-align: center;
+}
+
+.form-wrapper form {
+  background: #f0f0f0;
+  padding: 40px;
+}
