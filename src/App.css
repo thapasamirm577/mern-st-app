@@ -2,17 +2,26 @@
   color: #ffffff;
 }
 
-.form-wrapper{
+.student-create-wapper{
   width: 60%;
+}
+
+.student-list-wrapper{
+  width: 80%;
+}
+
+.student-create-wapper, 
+.student-list-wrapper{
   margin: auto;
   margin-top: 60px;
 }
 
-.form-wrapper h1{
+.student-create-wapper h1,
+.student-list-wrapper h1{
   text-align: center;
 }
 
-.form-wrapper form {
+.student-create-wapper form {
   background: #f0f0f0;
   padding: 40px;
 }
