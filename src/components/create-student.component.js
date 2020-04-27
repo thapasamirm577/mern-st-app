@@ -38,7 +38,7 @@ export default class CreateStudent extends Component {
       rollno
     };
 
-    axios.post('http://localhost:4000/students/create-student', + this.props.match.params.id, data)
+    axios.post('http://localhost:4000/students/create-student', data)
     .then((res) => {
       console.log(res.data)
       console.log('Student successfully created')

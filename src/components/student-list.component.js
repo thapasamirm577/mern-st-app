@@ -24,7 +24,16 @@ export default class StudentList extends Component {
       })
   }
 
-  DataTable() {
+  deleteStudent(id) {
+    axios.delete('http://localhost:4000/students/delete-student/' + id)
+      .then((res) => {
+        console.log('Student successfully deleted!')
+      }).catch((error) => {
+        console.log(error)
+      })
+  }
+
+  getTableData() {
     const { students } = this.state;
     return students.map((student, index) => {
       return (
@@ -36,7 +45,7 @@ export default class StudentList extends Component {
             <Link className="btn btn-primary btn-sm edit-link" to={"/edit-student/" + student._id}>
               Edit
             </Link>
-            <Button size="sm" variant="danger">Delete</Button>
+            <Button size="sm" variant="danger" onClick={() => this.deleteStudent(student._id)}>Delete</Button>
           </td>
         </tr>
       )
@@ -58,7 +67,7 @@ export default class StudentList extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.DataTable()}
+            {this.getTableData()}
           </tbody>
         </Table>
       </div>
