@@ -38,15 +38,19 @@ export default class CreateStudent extends Component {
       rollno
     };
 
-    axios.post('http://localhost:4000/students/create-student', data)
-      .then((res) => {
-        console.log(res.data)
-        console.log('Student successfully created')
-      }).catch((error) => {
-        console.log(error)
-      })
+    if (name === '' || email === '' || rollno === '') {
+      console.log("All field are required");
+    } else {
+      axios.post('http://localhost:4000/students/create-student', data)
+        .then((res) => {
+          console.log(res.data)
+          console.log('Student successfully created')
+        }).catch((error) => {
+          console.log(error)
+        })
+      this.resetFormValue();
+    }
 
-    this.resetFormValue();
   }
 
   resetFormValue = () => {

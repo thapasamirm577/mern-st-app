@@ -51,14 +51,19 @@ export default class CreateStudent extends Component {
       email,
       rollno
     };
-    axios.put('http://localhost:4000/students/update-student/' + this.props.match.params.id, data)
-      .then((res) => {
-        console.log(res.data)
-        console.log('Student successfully updated')
-      }).catch((error) => {
-        console.log(error)
-      })
-    this.props.history.push('/student-list');
+
+    if (name === '' || email === '' || rollno === '') {
+      console.log("All field are required");
+    } else {
+      axios.put('http://localhost:4000/students/update-student/' + this.props.match.params.id, data)
+        .then((res) => {
+          console.log(res.data)
+          console.log('Student successfully updated')
+        }).catch((error) => {
+          console.log(error)
+        })
+      this.props.history.push('/student-list');
+    }
   }
 
   render() {
