@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Form, Button } from 'react-bootstrap'
 import axios from 'axios';
+import Alert from '../utils/alert';
 
 export default class CreateStudent extends Component {
   constructor(props) {
@@ -8,7 +9,9 @@ export default class CreateStudent extends Component {
     this.state = {
       name: '',
       email: '',
-      rollno: ''
+      rollno: '',
+      alertVariant: 'none',
+      alertMsg: '',
     }
   }
 
@@ -39,14 +42,24 @@ export default class CreateStudent extends Component {
     };
 
     if (name === '' || email === '' || rollno === '') {
-      console.log("All field are required");
+      this.setState({
+        alertVariant: 'danger',
+        alertMsg: 'All field are required',
+      })
     } else {
       axios.post('http://localhost:4000/students/create-student', data)
         .then((res) => {
-          console.log(res.data)
-          console.log('Student successfully created')
+          console.log(res.data);
+          this.setState({
+            alertVariant: 'success',
+            alertMsg: 'Student successfully created'
+          })
         }).catch((error) => {
-          console.log(error)
+          this.setState({
+            alertVariant: 'error',
+            alertMsg: error.response,
+          })
+          console.log(error);
         })
       this.resetFormValue();
     }
@@ -61,11 +74,21 @@ export default class CreateStudent extends Component {
     })
   }
 
+  handleAlertClose = () => {
+    this.setState({
+      alertVariant: 'none',
+      alertMsg: '',
+    })
+  }
+
   render() {
-    const { name, email, rollno } = this.state;
+    const { name, email, rollno, alertVariant, alertMsg } = this.state;
     return (
       <div className="student-create-wapper">
         <h1> Create student list</h1>
+        {
+          alertVariant === 'none' ? null : <Alert alertVariant={alertVariant} alertMsg={alertMsg} handleClose={this.handleAlertClose}/>
+        }
         <Form>
           <Form.Group controlId="Name">
             <Form.Label>Name</Form.Label>

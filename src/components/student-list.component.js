@@ -2,13 +2,19 @@ import React, { Component } from "react";
 import axios from 'axios';
 import { Table, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
+import Loading from '../utils/loading';
+import Error from '../utils/error';
+import Alert from '../utils/alert';
 
 export default class StudentList extends Component {
-
   constructor(props) {
     super(props)
     this.state = {
-      students: []
+      students: [],
+      canDisplayView: false,
+      isError: false,
+      alertVariant: 'none',
+      alertMsg: '',
     };
   }
 
@@ -16,11 +22,17 @@ export default class StudentList extends Component {
     axios.get('http://localhost:4000/students/')
       .then(res => {
         this.setState({
-          students: res.data
+          students: res.data,
+          canDisplayView: true,
+          isError: false,
         });
       })
       .catch((error) => {
         console.log(error);
+        this.setState({
+          isError: true,
+          canDisplayView: true,
+        });
       })
   }
 
@@ -28,9 +40,16 @@ export default class StudentList extends Component {
     const { students } = this.state;
     axios.delete('http://localhost:4000/students/delete-student/' + id)
       .then((res) => {
-        console.log('Student successfully deleted!')
+        this.setState({
+          alertVariant: 'success',
+          alertMsg: 'Student successfully deleted!'
+        })
       }).catch((error) => {
-        console.log(error)
+        this.setState({
+          alertVariant: 'error',
+          alertMsg: error.response,
+        })
+        console.log(error);
       })
     this.setState({
       students: students.filter(student => student._id !== id),
@@ -39,7 +58,6 @@ export default class StudentList extends Component {
 
   getTableData() {
     const { students } = this.state;
-    console.log(students);
     return students.map((student, index) => {
       return (
         <tr key={index}>
@@ -58,27 +76,52 @@ export default class StudentList extends Component {
     )
   }
 
+  handleAlertClose = () => {
+    this.setState({
+      alertVariant: 'none',
+      alertMsg: '',
+    })
+  }
+
   render() {
-    const { students } = this.state;
+    const { students, canDisplayView, isError, alertVariant, alertMsg } = this.state;
+
+    if (!canDisplayView) {
+      return <Loading />;
+    }
+
+    if (isError) {
+      return <Error />;
+    }
+
     return (
-      <div className="student-list-wrapper">
-        <h1> Student list</h1>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Roll No</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              students.length ? this.getTableData() : <tr><td colSpan="4"> No data found.</td></tr>
-            }
-          </tbody>
-        </Table>
-      </div>
+      <>
+        {
+          canDisplayView ?
+            <div className="student-list-wrapper">
+              <h1> Student list</h1>
+              {
+                alertVariant === 'none' ? null : <Alert alertVariant={alertVariant} alertMsg={alertMsg} handleClose={this.handleAlertClose} />
+              }
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Roll No</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    students.length ? this.getTableData() : <tr><td colSpan="4"> No data found.</td></tr>
+                  }
+                </tbody>
+              </Table>
+            </div>
+            : <Loading />
+        }
+      </>
     );
   }
 }
