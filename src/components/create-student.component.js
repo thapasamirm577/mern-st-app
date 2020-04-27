@@ -62,7 +62,7 @@ export default class CreateStudent extends Component {
   render() {
     const { name, email, rollno } = this.state;
     return (
-      <div className="form-wrapper">
+      <div className="student-create-wapper">
         <h1> Create student list</h1>
         <Form>
           <Form.Group controlId="Name">
