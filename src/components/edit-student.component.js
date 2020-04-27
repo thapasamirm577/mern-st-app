@@ -3,6 +3,7 @@ import { Form, Button } from 'react-bootstrap'
 import axios from 'axios';
 import Loading from '../utils/loading';
 import Error from '../utils/error';
+import Alert from '../utils/alert';
 
 export default class CreateStudent extends Component {
   constructor(props) {
@@ -13,6 +14,8 @@ export default class CreateStudent extends Component {
       rollno: '',
       canDisplayView: false,
       isError: false,
+      alertVariant: 'none',
+      alertMsg: '',
     }
   }
 
@@ -63,21 +66,30 @@ export default class CreateStudent extends Component {
     };
 
     if (name === '' || email === '' || rollno === '') {
-      console.log("All field are required");
+      this.setState({
+        alertVariant: 'danger',
+        alertMsg: 'All field are required',
+      })
     } else {
       axios.put('http://localhost:4000/students/update-student/' + this.props.match.params.id, data)
         .then((res) => {
-          console.log(res.data)
-          console.log('Student successfully updated')
+          console.log(res.data);
+          this.setState({
+            alertVariant: 'success',
+            alertMsg: 'Student successfully updated'
+          })
         }).catch((error) => {
-          console.log(error)
+          this.setState({
+            alertVariant: 'error',
+            alertMsg: error.response,
+          })
+          console.log(error);
         })
-      this.props.history.push('/student-list');
     }
   }
 
   render() {
-    const { name, email, rollno, canDisplayView, isError } = this.state;
+    const { name, email, rollno, canDisplayView, isError, alertVariant, alertMsg } = this.state;
 
     if (!canDisplayView) {
       return <Loading />;
@@ -92,6 +104,9 @@ export default class CreateStudent extends Component {
         {
           <div className="student-create-wapper">
             <h1> Update student list</h1>
+            {
+              alertVariant === 'none' ? null : <Alert alertVariant={alertVariant} alertMsg={alertMsg} />
+            }
             <Form>
               <Form.Group controlId="Name">
                 <Form.Label>Name</Form.Label>
