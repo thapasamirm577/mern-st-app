@@ -37,16 +37,14 @@ export default class CreateStudent extends Component {
       email,
       rollno
     };
-    console.log(data);
 
-    axios.post(
-      'http://localhost:4000/students/create-student',
-      data
-    )
-      .then(res =>
-        console.log(res.data)
-      );
-    console.log(`Student successfully created!`);
+    axios.post('http://localhost:4000/students/create-student', + this.props.match.params.id, data)
+    .then((res) => {
+      console.log(res.data)
+      console.log('Student successfully created')
+    }).catch((error) => {
+      console.log(error)
+    })
 
     this.resetFormValue();
   }
@@ -77,7 +75,7 @@ export default class CreateStudent extends Component {
 
           <Form.Group controlId="Name">
             <Form.Label>Roll No</Form.Label>
-            <Form.Control type="number" value={rollno} onChange={this.handleStudentRollnoChange} />
+            <Form.Control type="number" value={rollno} min='0' onChange={this.handleStudentRollnoChange} />
           </Form.Group>
 
           <Button variant="danger" size="lg" block="block" onClick={this.handleSubmitDetails}>
