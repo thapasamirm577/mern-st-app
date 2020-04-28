@@ -19,7 +19,7 @@ export default class StudentList extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:4000/students/')
+    axios.get('/students/')
       .then(res => {
         this.setState({
           students: res.data,
@@ -38,7 +38,7 @@ export default class StudentList extends Component {
 
   deleteStudent(id) {
     const { students } = this.state;
-    axios.delete('http://localhost:4000/students/delete-student/' + id)
+    axios.delete('/students/delete-student/' + id)
       .then((res) => {
         this.setState({
           alertVariant: 'success',
@@ -46,8 +46,8 @@ export default class StudentList extends Component {
         })
       }).catch((error) => {
         this.setState({
-          alertVariant: 'error',
-          alertMsg: error.response,
+          alertVariant: 'danger',
+          alertMsg: 'Something went wrong! Please try again later.',
         })
         console.log(error);
       })
