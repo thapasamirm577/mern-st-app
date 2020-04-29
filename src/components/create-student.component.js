@@ -47,7 +47,7 @@ export default class CreateStudent extends Component {
         alertMsg: 'All field are required',
       })
     } else {
-      axios.post('http://localhost:4000/students/create-student', data)
+      axios.post('/students/create-student', data)
         .then((res) => {
           console.log(res.data);
           this.setState({
@@ -56,8 +56,8 @@ export default class CreateStudent extends Component {
           })
         }).catch((error) => {
           this.setState({
-            alertVariant: 'error',
-            alertMsg: error.response,
+            alertVariant: 'danger',
+            alertMsg: 'Something went wrong! Please try again later.',
           })
           console.log(error);
         })
@@ -87,7 +87,7 @@ export default class CreateStudent extends Component {
       <div className="student-create-wapper">
         <h1> Create student list</h1>
         {
-          alertVariant === 'none' ? null : <Alert alertVariant={alertVariant} alertMsg={alertMsg} handleClose={this.handleAlertClose}/>
+          alertVariant === 'none' ? null : <Alert alertVariant={alertVariant} alertMsg={alertMsg} handleAlertClose={this.handleAlertClose}/>
         }
         <Form>
           <Form.Group controlId="Name">

@@ -1,3 +1,6 @@
+const URL = 'mongodb://localhost:27017';
+const dbName = 'mern-student-app-db';
+
 module.exports = {
-    db: 'mongodb://localhost:27017/mern-student-app-db'
+    dbConfig: `${URL}/${dbName}`
 };

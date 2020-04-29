@@ -20,7 +20,7 @@ export default class CreateStudent extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:4000/students/edit-student/' + this.props.match.params.id)
+    axios.get('/students/edit-student/' + this.props.match.params.id)
       .then(response => {
         this.setState({
           name: response.data.name,
@@ -71,17 +71,16 @@ export default class CreateStudent extends Component {
         alertMsg: 'All field are required',
       })
     } else {
-      axios.put('http://localhost:4000/students/update-student/' + this.props.match.params.id, data)
+      axios.put('/students/update-student/' + this.props.match.params.id, data)
         .then((res) => {
-          console.log(res.data);
           this.setState({
             alertVariant: 'success',
             alertMsg: 'Student successfully updated'
           })
         }).catch((error) => {
           this.setState({
-            alertVariant: 'error',
-            alertMsg: error.response,
+            alertVariant: 'danger',
+            alertMsg: 'Something went wrong! Please try again later.',
           })
           console.log(error);
         })
@@ -112,7 +111,7 @@ export default class CreateStudent extends Component {
           <div className="student-create-wapper">
             <h1> Update student list</h1>
             {
-              alertVariant === 'none' ? null : <Alert alertVariant={alertVariant} alertMsg={alertMsg} handleClose={this.handleAlertClose}/>
+              alertVariant === 'none' ? null : <Alert alertVariant={alertVariant} alertMsg={alertMsg} handleAlertClose={this.handleAlertClose}/>
             }
             <Form>
               <Form.Group controlId="Name">

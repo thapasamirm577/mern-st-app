@@ -27,9 +27,10 @@ Our React.js + Node.js + Express + MongoDB application will follow this architec
 | [x] PUT      | /students/update-student/id    | Update student details    |
 | [x] DELETE   | /students/delete-student/id    | Delete student details    |
 | [ ] DELETE   | /students/delete-student/      | Delete all student details|
-| [ ] GET      | /students?params               | Search student details    |   
+| [] GET       | /students?params               | Search student details    |   
 
-> Useful resources:
+
+# Useful resources:
 * https://www.positronx.io/react-mern-stack-crud-app-tutorial/
 * https://www.digitalocean.com/community/tutorials/getting-started-with-the-mern-stack
 * https://blog.bitsrc.io/build-a-login-auth-app-with-mern-stack-part-1-c405048e3669
