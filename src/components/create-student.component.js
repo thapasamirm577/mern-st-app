@@ -87,7 +87,7 @@ export default class CreateStudent extends Component {
       <div className="student-create-wapper">
         <h1> Create student list</h1>
         {
-          alertVariant === 'none' ? null : <Alert alertVariant={alertVariant} alertMsg={alertMsg} handleClose={this.handleAlertClose}/>
+          alertVariant === 'none' ? null : <Alert alertVariant={alertVariant} alertMsg={alertMsg} handleAlertClose={this.handleAlertClose}/>
         }
         <Form>
           <Form.Group controlId="Name">
