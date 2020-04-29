@@ -2,6 +2,7 @@ let express = require('express');
 let cors = require('cors');
 let bodyParser = require('body-parser');
 let createError = require('http-errors');
+
 const db = require('./database/connection');
 const studentRoute = require('../backend/routes/student.route')
 
