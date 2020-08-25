@@ -35,6 +35,8 @@ Our React.js + Node.js + Express + MongoDB application will follow this architec
 * https://www.digitalocean.com/community/tutorials/getting-started-with-the-mern-stack
 * https://blog.bitsrc.io/build-a-login-auth-app-with-mern-stack-part-1-c405048e3669
 * https://medium.com/codingthesmartway-com-blog/the-mern-stack-tutorial-building-a-react-crud-application-from-start-to-finish-part-1-d8d701c2995
+* https://bezkoder.com/node-express-mongodb-crud-rest-api/
+* https://www.upgrad.com/blog/crud-operations-in-mongodb-tutorial/
 
 
 # Run this project
